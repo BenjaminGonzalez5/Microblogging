@@ -3,8 +3,7 @@
 
 
 	$user = $bdd->query('SELECT * FROM users, agency WHERE users.agency_id = agency.id AND users.id = 3');
-
-	$reponse = $bdd->query('SELECT * FROM post, users WHERE post.users_id = users.id ORDER BY post.date_post DESC');
+	$reponse = $bdd->query('SELECT * FROM post, users WHERE post.users_id = users.id AND users.id = 3 ORDER BY post.date_post DESC');
 
 ?>
 
@@ -53,44 +52,53 @@
 						  <span class="navbar-text"></span>
 			  		</a>
 			  	</div>
-			  	<?php
-			  		}
-			  	?>
 		  	</div>
 		</div>
 	</nav>
 
 <div class="container-fluid" style="margin-top: 8em">
 	<div class="row">
+		<div class="card w-50 mx-auto">
+		  <div class="row no-gutters">
+		    <div class="col-md-5 card-header">
+				<img src="assets/profile.png" width="300" height="300" alt="" loading="lazy">
+			</div>
+		    <div class="col-md-7 card-header">
+		        <p class="card-text" style="font-size: 2.5em"> <?php echo $donnees['nom']; ?> </p>
+		        <p class="card-text" style="font-size: 2.5em"> <?php echo $donnees['prenom']; ?> </p>
+		        <p class="card-text" style="font-size: 2.5em"> <?php echo $donnees['role']; ?> </p>
+		        <p class="card-text" style="font-size: 2.5em"> <?php echo $donnees['city']; ?> </p>
+		    </div>
+		    <?php
+	  			}
+			?>
+		  </div>
+		</div>
+	</div>
+	<blockquote class="blockquote text-center" style="margin-top: 1em">
+		<h1 class=""> Prenom's Post </h1>
+	</blockquote>
+	<div class="row" style="margin-top: 1em">
 	<?php
-		while ($result = $reponse->fetch()) {
+		while ($donnees = $reponse->fetch()) {
 	?>
 		<div class="card w-50 mx-auto">
 		  <div class="card-header h-55">
-		    <?php echo $result['date_post']; ?>
+		    <?php echo $donnees['date_post']; ?>
 		  </div>
 		  <div class="card-body">
-		    <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $result['nom'], ' ', $result['prenom']; ?></h5>
-		    <p class="card-text"><?php echo $result['content']; ?></p>
+		    <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $donnees['nom'], ' ', $donnees['prenom']; ?></h5>
+		    <p class="card-text"><?php echo $donnees['content']; ?></p>
 		  </div>
 		  <div class="card-footer text-muted">
 		    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 			  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
 			</svg>
 		  </div>
-		</div>
+		</div>	
 	</div>
 </div>
 <br/>
 	<?php
 	  }
   ?>
-  <button><a href="create_post.php">Valider</a></button>
-</body>
-</html>
-
-<?php
-
-$reponse->closeCursor();
-
-?>
