@@ -1,7 +1,7 @@
 <?php
 	$bdd = new PDO('mysql:host=localhost;dbname=microblog;charset=utf8', 'root', '');
 
-	$reponse = $bdd->query('SELECT * FROM post ORDER BY post.date_post DESC');
+	$reponse = $bdd->query('SELECT * FROM post, users WHERE post.users_id = users.id ORDER BY post.date_post DESC');
 
 ?>
 
@@ -23,12 +23,17 @@
 ?>
 
 <div class="card w-50 mx-auto">
-  <div class="card-header">
+  <div class="card-header h-55">
     <?php echo $donnees['date_post']; ?>
   </div>
   <div class="card-body">
-    <h5 class="card-title"><?php echo $donnees['users_id']; ?></h5>
+    <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $donnees['nom'], ' ', $donnees['prenom']; ?></h5>
     <p class="card-text"><?php echo $donnees['content']; ?></p>
+  </div>
+  <div class="card-footer text-muted">
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+	  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
+	</svg>
   </div>
 </div>
 <br/>
