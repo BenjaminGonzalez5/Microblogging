@@ -26,6 +26,7 @@
 	<?php
 	  }
   ?>
+  <button><a href="create_post.php">Valider</a></button>
 </body>
 </html>
 
