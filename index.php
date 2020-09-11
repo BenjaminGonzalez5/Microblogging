@@ -71,7 +71,7 @@
 	<?php
 	  }
   ?>
-  <button><a href="create_post.php">Valider</a></button>
+  <button><a href="create_post.php">Create a Post</a></button>
 </body>
 </html>
 
