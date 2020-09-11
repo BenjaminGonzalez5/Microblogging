@@ -1,3 +1,8 @@
+<?php
+	$bdd = new PDO('mysql:host=localhost;dbname=microblog;charset=utf8', 'root', '');
+
+?>
+
 <!doctype html>
 <html lang="fr">
 <head>
@@ -6,23 +11,25 @@
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-	<form>
+	<form action="#" method="post">
 		<textarea name="post" id="post" placeholder="Ecrivez votre post"></textarea>
-		<button>Valider</button>
+		<button type="submit">Valider</button>
 		<?php
-			$bdd = new PDO('mysql:host=localhost;dbname=microblog;charset=utf8', 'root', '');
+			$datePost = date("m.d.y");
+			$id = new DateTime();
+			
 			if(isset($_POST["post"]))
 			{
-			    $post = $bdd->prepare("INSERT INTO post (content, date_post, user_id) VALUES (:postContent, :datePost, 2)");
-			    echo "1";
+				$req = $bdd->prepare('INSERT INTO post (id, content, date_post, users_id) VALUES (:id, :postContent, :datePost, 3)');
+				$req->execute(array(
+						'id' => $id->getTimestamp(),
+						'postContent' => $_POST["post"],
+	    				'datePost' => $datePost
+					));
 
-			    $post->execute([
-			    	':postContent' => $_POST["post"],
-			    	':datePost' => date("m.d.y"),
-			    ]);
-
+				echo "Post ajouté avec succès";
 			}
-			?>
+		?>
 	</form>
 </body>
 </html>
