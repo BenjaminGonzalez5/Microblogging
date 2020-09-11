@@ -1,11 +1,8 @@
 <?php
 	$bdd = new PDO('mysql:host=localhost;dbname=microblog;charset=utf8', 'root', '');
 
-
 	$user = $bdd->query('SELECT * FROM users, agency WHERE users.agency_id = agency.id AND users.id = 3');
-
-	$reponse = $bdd->query('SELECT * FROM post, users WHERE post.users_id = users.id ORDER BY post.date_post DESC');
-
+	$reponse = $bdd->query('SELECT * FROM post, users, reply WHERE post.users_id = users.id AND post.id= reply.post_id 	ORDER BY post.date_post DESC');
 ?>
 
 <!doctype html>
@@ -62,30 +59,36 @@
 
 <div class="container-fluid" style="margin-top: 8em">
 	<div class="row">
-	<?php
-		while ($result = $reponse->fetch()) {
-	?>
-		<div class="card w-50 mx-auto">
-		  <div class="card-header h-55">
-		    <?php echo $result['date_post']; ?>
-		  </div>
-		  <div class="card-body">
-		    <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $result['nom'], ' ', $result['prenom']; ?></h5>
-		    <p class="card-text"><?php echo $result['content']; ?></p>
-		  </div>
-		  <div class="card-footer text-muted">
-		    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-			  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
-			</svg>
-		  </div>
-		</div>
+<?php
+	while ($donnees = $reponse->fetch()) {
+?>
+
+<div class="card w-50 mx-auto">
+  <div class="card-header h-55">
+    <?php echo $donnees['date_post']; ?>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $donnees['nom'], ' ', $donnees['prenom']; ?></h5>
+    <p class="card-text"><?php echo $donnees[1]; ?></p>
+  </div>
+  <div class="card-footer text-muted">
+    <?php echo '<svg data-toggle="collapse" href="#id'.$donnees[0].'" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' ?>
+		  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
+		</svg>
+  </div>
+  <?php echo '<div class="collapse" id="id'.$donnees[0].'">'?>
+	  <div class="card card-body">
+    	<p class="card-text"><?php echo $donnees['content']; ?></p>
+	  </div>
 	</div>
+</div>
+</div>
 </div>
 <br/>
 	<?php
 	  }
   ?>
-  <button><a href="create_post.php">Valider</a></button>
+  <button><a href="create_post.php">Create a Post</a></button>
 </body>
 </html>
 
