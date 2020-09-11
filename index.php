@@ -1,7 +1,7 @@
 <?php
 	$bdd = new PDO('mysql:host=localhost;dbname=microblog;charset=utf8', 'root', '');
 
-	$reponse = $bdd->query('SELECT * FROM post, users WHERE post.users_id = users.id ORDER BY post.date_post DESC');
+	$reponse = $bdd->query('SELECT * FROM post, users, reply WHERE post.users_id = users.id AND post.id= reply.post_id 	ORDER BY post.date_post DESC');
 
 ?>
 
@@ -9,7 +9,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Microbloggings</title>
+  <title>Microblogging</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
 
@@ -59,13 +59,18 @@
   </div>
   <div class="card-body">
     <h5 class="card-title"><img style="width: 50px; margin-right: 0.5em;" src="assets/logo.png"><?php echo $donnees['nom'], ' ', $donnees['prenom']; ?></h5>
-    <p class="card-text"><?php echo $donnees['content']; ?></p>
+    <p class="card-text"><?php echo $donnees[1]; ?></p>
   </div>
   <div class="card-footer text-muted">
-    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-	  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
-	</svg>
+    <?php echo '<svg data-toggle="collapse" href="#id'.$donnees[0].'" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-compact-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' ?>
+		  <path fill-rule="evenodd" d="M1.553 6.776a.5.5 0 0 1 .67-.223L8 9.44l5.776-2.888a.5.5 0 1 1 .448.894l-6 3a.5.5 0 0 1-.448 0l-6-3a.5.5 0 0 1-.223-.67z"/>
+		</svg>
   </div>
+  <?php echo '<div class="collapse" id="id'.$donnees[0].'">'?>
+	  <div class="card card-body">
+    	<p class="card-text"><?php echo $donnees['content']; ?></p>
+	  </div>
+	</div>
 </div>
 <br/>
 	<?php
